@@ -2,10 +2,10 @@ import flask
 import urllib3
 from flask import request
 from flask_cors import CORS, cross_origin
-
+import json
 urllib3.disable_warnings()
 import random
-
+import requests
 import pymongo
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -160,7 +160,24 @@ def maintenanceMode():
     else:
         return "<h1>400</h1><p> No api_key field provided. Please provide an api key.</p>", 400
 
+@application.route('/api/v1/analytics', methods=['GET'])
+def analytics():
+    res = requests.get('https://papertrailapp.com/api/v1/events/search.json?q=search', headers = {"X-Papertrail-Token": "d62sBTc9nkUTf9je0c"})
+    data = {}
+    searches = {}
+    res = json.loads(res.content)
+    for event in res['events']:
+        data[event['display_received_at']] = ("search: " + event['message'])
 
+    endindex = 0
+    total = 0
+    while endindex < len(str(data))-500:
+        firstindex = str(data).find('/search/', endindex)
+        secondindex = str(data).find('/', firstindex+6)
+        endindex = str(data).find('"', secondindex)
+        searches[str(total)] = (str(data)[secondindex:endindex])
+        total+=1
+    return searches
 if __name__ == "__main__":
     application.debug = True
     application.run()
