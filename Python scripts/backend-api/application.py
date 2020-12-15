@@ -148,7 +148,7 @@ def maintenanceMode():
     global working
     if "api_key" in request.args:
         api_key = request.args['api_key']
-        if api_key == "7CZwtblhHpQGVflBeCYM":
+        if api_key == API_KEY:
             if working:
                 working = False
                 return "<h1>The website has been put into maintance mode</h1><p>To switch back make another request to this endpoint</p>"
@@ -162,7 +162,7 @@ def maintenanceMode():
 
 @application.route('/api/v1/analytics', methods=['GET'])
 def analytics():
-    res = requests.get('https://papertrailapp.com/api/v1/events/search.json?q=search', headers = {"X-Papertrail-Token": "d62sBTc9nkUTf9je0c"})
+    res = requests.get('https://papertrailapp.com/api/v1/events/search.json?q=search', headers = {"X-Papertrail-Token": API_KEY})
     data = {}
     searches = {}
     res = json.loads(res.content)
