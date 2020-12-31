@@ -1,6 +1,6 @@
 # Debate Evidence
 
-A simple website that indexes and stores 600k + debate cards from LD, HS Policy, and College Policy for easy searchability and use.
+A simple website that indexes and stores 600k + debate cards from LD, HS Policy, PF, and College Policy for easy searchability and use.
 
 This is the backend code we used. [Here is the front end.](https://github.com/densumesh/debatev-frontend)
 
